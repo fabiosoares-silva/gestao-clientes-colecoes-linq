@@ -2,10 +2,19 @@
 
 namespace GestaoDeClientesColecoesLinq.Repositorios;
 
-public class CadastroRepositorio 
+public class CadastroRepositorio
 {
-    public static IEnumerable<Cliente> BuscarClientes(StreamReader stream)
+    private readonly string _caminhoDoArquivo;
+
+    public CadastroRepositorio(string caminho)
     {
+        _caminhoDoArquivo = caminho;
+    }
+    public IEnumerable<Cliente> ObterDadosClientes()
+    {
+        using var arquivo = new FileStream(_caminhoDoArquivo, FileMode.Open, FileAccess.Read);
+        using var stream = new StreamReader(arquivo);
+
 
         var linha = stream.ReadLine();
 
@@ -24,15 +33,13 @@ public class CadastroRepositorio
         }
     }
 
-    public static void ExibirClientes(IEnumerable<Cliente> clientes)
+    public IEnumerable<Cliente> Buscar(Func<Cliente, bool> condicao)
     {
-        var contador = 1;
-        Console.WriteLine("\nClientes:");
-        foreach (var cliente in clientes)
-        {
-            Console.WriteLine($" - {cliente.Nome}");
-            contador++;
-            if (contador > 30) break;
-        }
+        return ObterDadosClientes().Where(condicao);
     }
+    public IEnumerable<Cliente> BuscarPorNome(string respostaUsuario)
+    {
+        return Buscar(c => c.Nome.Contains(respostaUsuario, StringComparison.OrdinalIgnoreCase));        
+    }
+
 }

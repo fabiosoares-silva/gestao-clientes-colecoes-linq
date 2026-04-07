@@ -1,8 +1,6 @@
-﻿using GestaoDeClientesColecoesLinq.Repositorios;
+﻿using GestaoDeClientesColecoesLinq.Menus;
+using GestaoDeClientesColecoesLinq.Repositorios;
 
-using var arquivo = new FileStream("clientes.csv", FileMode.Open, FileAccess.Read);
-using var stream = new StreamReader(arquivo);
+var repositorio = new CadastroRepositorio("clientes.csv");
 
-var clientes = CadastroRepositorio.BuscarClientes(stream);
-CadastroRepositorio.ExibirClientes(clientes);
-
+Menu.Iniciar(repositorio);
