@@ -16,18 +16,13 @@ public static class Menu
             Console.Clear();
             Console.WriteLine("=== Gestão de Clientes ===");
             Console.WriteLine("\n");
-            Console.WriteLine("1. Buscar cliente");
-            Console.WriteLine("2. Cadastrar cliente");
+            Console.WriteLine("1. Buscar cliente");            
             Console.WriteLine("0. Sair");
 
             switch (Console.ReadLine())
             {
                 case "1":
                     ExibirSubMenu();
-                    break;
-                case "2":
-                    CadastrarCliente();
-                    //TODO: implementar CadastrarCliente()
                     break;
                 case "0":
                     exibirMenuPrincipal = false;
@@ -136,15 +131,5 @@ public static class Menu
         {
             Console.WriteLine($"- {cliente.Telefone}, {cliente.Nome}");
         }
-    }
-    public static void CadastrarCliente()
-    {
-        Console.WriteLine("informe o nome do cliente:");
-        string nomeInformado = Console.ReadLine()!;
-        Console.WriteLine("Informe o telefone:");
-        string telefoneInformado = Console.ReadLine()!;
-        Console.WriteLine("Informe o email:");
-        string emailInformado = Console.ReadLine()!;
-
-    }
+    }    
 }
