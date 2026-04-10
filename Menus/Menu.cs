@@ -60,16 +60,22 @@ public static class Menu
                 case "1":
                     Console.WriteLine("Digite o nome do cliente:");
                     string nomeDigitado = Console.ReadLine()!;
-                    if (_repositorio == null) return;                    
-                    var resultado =_repositorio.BuscarPorNome(nomeDigitado);
-                    Menu.ExbirResultado(resultado);
+                    if (_repositorio == null) return;
+                    var nomeBuscado =_repositorio.BuscarPorNome(nomeDigitado);
+                    Menu.ExbirResultadoNome(nomeBuscado);
                      
                     Console.ReadKey();
                     break;
                 case "2":
-                    Console.WriteLine("Digite o telefone:");
+                    // TODO: normalizar formato do telefone antes de comparar
+                    // melhoria futura: aceitar qualquer formato usando IsDigit ou Regex
+                    Console.WriteLine("Digite o telefone: Exemplo (11) 99999-9999");
                     string telefoneDigitado = Console.ReadLine()!;
-                    //TODO: implementar BuscaPorTelefone
+                    if (_repositorio == null) return;
+                    var telefoneBuscado = _repositorio.BuscarPorTelefone(telefoneDigitado);
+                    Menu.ExbirResultadotelefone(telefoneBuscado);
+
+                    Console.ReadKey();
                     break;
                 case "3":
                     Console.WriteLine("Digite o email:");
@@ -86,16 +92,15 @@ public static class Menu
 
         }        
     }
-
     public static void Iniciar(CadastroRepositorio repositorio)
     {
         _repositorio = repositorio;
         ExibirMenuPrincipal();
     }
 
-    public static void ExbirResultado(IEnumerable<Cliente> resultado)
+    public static void ExbirResultadoNome(IEnumerable<Cliente> nomeBuscado)
     {
-        var lista = resultado.ToList();
+        var lista = nomeBuscado.ToList();
 
         if (lista.Count == 0)
         {
@@ -111,6 +116,26 @@ public static class Menu
         {
             Console.WriteLine($"- {cliente.Nome}");
         }        
+    }
+
+    private static void ExbirResultadotelefone(IEnumerable<Cliente> telefoneBuscado)
+    {
+        var lista = telefoneBuscado.ToList();
+
+        if (lista.Count == 0)
+        {
+            Console.WriteLine("Nenhum telefone encontrado ou formato digitado não é válido.");
+            return;
+        }
+        var quantidadeEncontrada = lista.Count;
+        var textoResultado = quantidadeEncontrada > 1 ? "resultados" : "resultado";
+
+        Console.WriteLine($"Resultado da busca: {quantidadeEncontrada} {textoResultado}.");
+
+        foreach (var cliente in lista)
+        {
+            Console.WriteLine($"- {cliente.Telefone}, {cliente.Nome}");
+        }
     }
     public static void CadastrarCliente()
     {
