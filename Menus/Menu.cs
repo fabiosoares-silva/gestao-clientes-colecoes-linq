@@ -5,38 +5,12 @@ namespace GestaoDeClientesColecoesLinq.Menus;
 public static class Menu
 {
     private static CadastroRepositorio? _repositorio;
+    
     public static void ExibirMenuPrincipal()
     {
-        bool exibirMenuPrincipal = true;
+        bool opcoesMenuPrincipal = true;
 
-        while (exibirMenuPrincipal)
-        {
-            Console.Clear();
-            Console.WriteLine("=== Gestão de Clientes ===");
-            Console.WriteLine("\n");
-            Console.WriteLine("1. Buscar cliente");            
-            Console.WriteLine("0. Sair");
-
-            switch (Console.ReadLine())
-            {
-                case "1":
-                    ExibirSubMenu();
-                    break;
-                case "0":
-                    exibirMenuPrincipal = false;
-                    return;
-                default:
-                    Console.WriteLine("Opção inválida.");
-                    break;
-            }
-
-        }
-    }
-    public static void ExibirSubMenu()
-    {
-        bool continuarNoSubmenu = true;
-
-        while (continuarNoSubmenu)
+        while (opcoesMenuPrincipal)
         {
             Console.Clear();
             Console.WriteLine("=== Buscar por cliente ===");
@@ -44,7 +18,7 @@ public static class Menu
             Console.WriteLine("1. Por nome");
             Console.WriteLine("2. Por telefone");
             Console.WriteLine("3. Por email");
-            Console.WriteLine("4. voltar");
+            Console.WriteLine("0. Sair");
 
             var opcao = Console.ReadLine();
 
@@ -52,10 +26,9 @@ public static class Menu
             {
                 case "1":
                     Console.WriteLine("Digite o nome do cliente:");
-                    string nomeDigitado = Console.ReadLine()!;
-                    if (_repositorio == null) return;
-                    var nomeBuscado =_repositorio.BuscarPorNome(nomeDigitado);
-                    Menu.ExbirResultadoNome(nomeBuscado);
+                    string nomeDigitado = Console.ReadLine()!;                    
+                    var nomeBuscado = _repositorio!.BuscarPorNome(nomeDigitado);
+                    Menu.ExibirResultadoNome(nomeBuscado);
                      
                     Console.ReadKey();
                     break;
@@ -64,23 +37,22 @@ public static class Menu
                     // melhoria futura: aceitar qualquer formato usando IsDigit ou Regex
                     Console.WriteLine("Digite o telefone: Exemplo (11) 99999-9999");
                     string telefoneDigitado = Console.ReadLine()!;
-                    if (_repositorio == null) return;
-                    var telefoneBuscado = _repositorio.BuscarPorTelefone(telefoneDigitado);
+                    var telefoneBuscado = _repositorio!.BuscarPorTelefone(telefoneDigitado);
                     Menu.ExbirResultadotelefone(telefoneBuscado);
 
                     Console.ReadKey();
                     break;
                 case "3":
                     Console.WriteLine("Digite o email:");
-                    string emailDigitado = Console.ReadLine()!;
-                    if (_repositorio == null) return;
-                    var emailBuscado = _repositorio.BuscarPorEmail(emailDigitado);
+                    string emailDigitado = Console.ReadLine()!;                    
+                    var emailBuscado = _repositorio!.BuscarPorEmail(emailDigitado);
                     Menu.ExbirResultadoEmail(emailBuscado);
 
                     Console.ReadKey();
                     break;
-                case "4":
-                    continuarNoSubmenu = false;
+                case "0":
+                    opcoesMenuPrincipal = false;
+                    Finalizar();
                     return;
                 default:
                     Console.WriteLine("Opção inválida.");
@@ -94,8 +66,14 @@ public static class Menu
         _repositorio = repositorio;
         ExibirMenuPrincipal();
     }
-
-    public static void ExbirResultadoNome(IEnumerable<Cliente> nomeBuscado)
+    private static void Finalizar()
+    {
+        Console.Clear();
+        Console.WriteLine("Finalizando aplicação...");
+        Thread.Sleep(2000);
+        Console.Clear();
+    }
+    private static void ExibirResultadoNome(IEnumerable<Cliente> nomeBuscado)
     {
         var lista = nomeBuscado.ToList();
 
