@@ -27,25 +27,26 @@ public class CadastroRepositorio
                 Nome = partes[1],
                 Telefone = partes[2],
                 Email = partes[3]
-            };            
+            };
 
             yield return cliente;
             linha = stream.ReadLine();
         }
     }
-
     public IEnumerable<Cliente> Buscar(Func<Cliente, bool> condicao)
     {
         return ObterDadosClientes().Where(condicao);
     }
-
     public IEnumerable<Cliente> BuscarPorNome(string respostaUsuario)
     {
         return Buscar(c => c.Nome.Contains(respostaUsuario, StringComparison.OrdinalIgnoreCase));
     }
-
     public IEnumerable<Cliente> BuscarPorTelefone(string respostaUsuario)
     {
         return Buscar(c => c.Telefone == respostaUsuario);
+    }
+    public IEnumerable<Cliente> BuscarPorEmail(string respostaUsuario)
+    {
+        return Buscar(c => c.Email == respostaUsuario);
     }
 }

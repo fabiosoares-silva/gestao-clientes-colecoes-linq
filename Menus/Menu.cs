@@ -2,11 +2,9 @@
 using GestaoDeClientesColecoesLinq.Repositorios;
 
 namespace GestaoDeClientesColecoesLinq.Menus;
-
 public static class Menu
 {
     private static CadastroRepositorio? _repositorio;
-
     public static void ExibirMenuPrincipal()
     {
         bool exibirMenuPrincipal = true;
@@ -75,7 +73,11 @@ public static class Menu
                 case "3":
                     Console.WriteLine("Digite o email:");
                     string emailDigitado = Console.ReadLine()!;
-                    //TODO: implementar BuscaPorEmail
+                    if (_repositorio == null) return;
+                    var emailBuscado = _repositorio.BuscarPorEmail(emailDigitado);
+                    Menu.ExbirResultadoEmail(emailBuscado);
+
+                    Console.ReadKey();
                     break;
                 case "4":
                     continuarNoSubmenu = false;
@@ -131,5 +133,24 @@ public static class Menu
         {
             Console.WriteLine($"- {cliente.Telefone}, {cliente.Nome}");
         }
-    }    
+    }
+    private static void ExbirResultadoEmail(IEnumerable<Cliente> emailBuscado)
+    {
+        var lista = emailBuscado.ToList();
+
+        if (lista.Count == 0)
+        {
+            Console.WriteLine("Nenhum email encontrado ou formato digitado não é válido.");
+            return;
+        }
+        var quantidadeEncontrada = lista.Count;
+        var textoResultado = quantidadeEncontrada > 1 ? "resultados" : "resultado";
+
+        Console.WriteLine($"Resultado da busca: {quantidadeEncontrada} {textoResultado}.");
+
+        foreach (var cliente in lista)
+        {
+            Console.WriteLine($"- {cliente.Email}, {cliente.Nome}");
+        }
+    }
 }
