@@ -85,7 +85,7 @@ public static class Menu
         var quantidadeEncontrada = lista.Count;
         var textoResultado = quantidadeEncontrada > 1 ? "resultados" : "resultado";
 
-        Console.WriteLine($"Resultado da busca: {quantidadeEncontrada} {textoResultado}.");
+        Console.WriteLine($"\nResultado da busca: {quantidadeEncontrada} {textoResultado}.");
 
         foreach (var cliente in lista)
         {
