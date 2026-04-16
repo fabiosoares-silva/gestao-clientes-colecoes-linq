@@ -38,10 +38,8 @@ public static class Menu
 
                     Console.ReadKey();
                     break;
-                case "2":
-                    // TODO: normalizar formato do telefone antes de comparar
-                    // melhoria futura: aceitar qualquer formato usando IsDigit ou Regex
-                    Console.WriteLine("Digite o telefone: Exemplo (11) 99999-9999");
+                case "2":                    
+                    Console.WriteLine("Digite o telefone: Exemplo 11 916364082");
                     string telefoneDigitado = Console.ReadLine()!;
                     var telefoneBuscado = _repositorio.BuscarPorTelefone(telefoneDigitado);
                     ExibirResultadoDaBusca(telefoneBuscado);
@@ -71,7 +69,6 @@ public static class Menu
         _repositorio = repositorio;
         ExibirMenuPrincipal();
     }
-
     private static void ExibirResultadoDaBusca(IEnumerable<Cliente> itemBuscado)
     {
         var lista = itemBuscado.ToList();
@@ -92,7 +89,6 @@ public static class Menu
             Console.WriteLine($"- {cliente.Nome} | {cliente.Telefone} | {cliente.Email}");
         }
     }
-
     private static void Finalizar()
     {
         Console.Clear();

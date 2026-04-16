@@ -1,4 +1,5 @@
 ﻿using GestaoDeClientesColecoesLinq.Modelos;
+using System.Text.RegularExpressions;
 
 namespace GestaoDeClientesColecoesLinq.Repositorios;
 
@@ -15,18 +16,28 @@ public class CadastroRepositorio
         using var arquivo = new FileStream(_caminhoDoArquivo, FileMode.Open, FileAccess.Read);
         using var stream = new StreamReader(arquivo);
 
-
-        var linha = stream.ReadLine();
+        var linha = stream.ReadLine();      
 
         while (linha is not null)
         {
             var partes = linha.Split(';');
+            var telefone = "Telefone não encontrado";
+            var match = Regex.Match(linha, @"\((\d{2})\) (\d{5})-(\d{4})");   
+            if(match.Success)
+            {
+                var DDD = match.Groups[1].Value;
+                var prefixoTelefone = match.Groups[2].Value;
+                var sufixoTelefone = match.Groups[3].Value;
+
+                telefone = $"{DDD} {prefixoTelefone}{sufixoTelefone}";
+            }
+
             var cliente = new Cliente
             {
                 Id = int.Parse(partes[0]),
-                Nome = partes[1],
-                Telefone = partes[2],
-                Email = partes[3]
+                Nome = string.IsNullOrWhiteSpace(partes[1]) ? "Nome não encontrado" : partes[1],
+                Telefone = telefone,
+                Email = string.IsNullOrWhiteSpace(partes[3]) ? "Email não encontrado" : partes[3]
             };
 
             yield return cliente;
