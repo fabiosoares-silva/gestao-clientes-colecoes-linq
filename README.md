@@ -24,6 +24,7 @@ Aplicação console que simula um sistema de cadastro de clientes, permitindo bu
 - Manipulação de arquivos: leitura de CSV com `FileStream` e `StreamReader`
 - Coleções: `IEnumerable<T>`, `yield return` para leitura lazy de dados
 - LINQ: operações de filtro com delegates e expressões lambda
+- Expressões Regulares (Regex): validação e extração de padrões de strings (Telefones).
 - Separação de responsabilidades: estrutura organizada em Modelos, Repositórios e Menus
 
 ## Estrutura do projeto
@@ -94,13 +95,12 @@ Resultado da busca: 22 resultados.
 - Olivia Costa Nascimento | (85) 95653-8669 | olivia.costa738@outlook.com
 ```
 
-## Débitos técnicos
+## Melhorias realizadas
 
-- Busca por telefone requer formato exato: `(XX) XXXXX-XXXX`
-  - Melhoria planejada: normalização com Regex para aceitar qualquer formato
+- Normalização de Dados com Regex: Implementada validação e formatação automática de telefones. O sistema agora identifica DDD, prefixo e sufixo de forma independente, garantindo a integridade dos dados mesmo que a entrada varie.
+- Tratamento de Exceções em Leitura: Adicionada validação para campos nulos ou vazios durante a leitura de arquivos, evitando erros de execução (NullReferenceException).
 
 ## Próximos passos
 
-- Normalizar busca por telefone com expressões regulares
 - Migração da persistência para SQLite
 - Interface gráfica com Windows Forms
